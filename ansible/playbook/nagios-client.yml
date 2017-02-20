@@ -1,0 +1,26 @@
+---
+
+- name: Nagios client installation
+  hosts: nagios-client
+  
+  tasks:
+  # - name: Copy file to remote location
+  #   copy:
+  #     src: /etc/ansible/data/nagios_tar.tar.gz
+  #     dest: /tmp/nagios_tar.tar.gz
+  #     owner: root
+  #     group: root
+  #     mode: 0644
+   
+   - name: Untar the file
+     unarchive: 
+       src: /etc/ansible/data/nagios_tar.tar.gz #/tmp/nagios_tar.tar.gz
+       dest: /tmp
+
+   - name: Run shell script
+     args: 
+       chdir: /tmp/nagios_tar
+     command: bash nagios_client_tar.sh 
+     register: bash
+   - debug: var=bash.stdout_lines
+
