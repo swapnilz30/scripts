@@ -1,0 +1,26 @@
+---
+
+- hosts: webserver
+  vars:
+    - WelcomeMsg: "Welcome to this demo"
+    - WelcomeMsg2: "Welcome to this demo 2"
+
+  tasks: 
+   - name: epel-release | Installing epel-release
+     yum: 
+       name: epel-release 
+       state: present 
+       update_cache: true
+
+   - name: NGINX | Installing NGINX
+     yum: 
+       name: nginx
+       state: present 
+       update_cache: true
+
+   - name: NGINX | Starting NGINX
+     service:
+       name: nginx
+       state: started 
+   - name: Copy index.html file
+     template: src=/etc/ansible/playbook/nginx/conf/index.html.j2 dest=/usr/share/nginx/html/index.html  
