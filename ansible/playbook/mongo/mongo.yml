@@ -1,0 +1,16 @@
+---
+
+- hosts: webserver
+  
+  tasks:
+    - name: Copy mongo.repo file
+      template: src=/etc/ansible/playbook/mongo/conf/mongodb.repo  dest=/etc/yum.repos.d/mongodb.repo 
+       
+    - name: mongo-10gen Installation
+      yum: name=mongo-10gen state=present update_cache=true 
+  
+    - name: mongo-10gen-server Installation
+      yum: name=mongo-10gen-server state=present update_cache=true
+    
+    - name: Start Mongod
+      service: name=mongod state=started 
